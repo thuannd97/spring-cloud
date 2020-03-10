@@ -26,9 +26,7 @@ buildNumber.properties
 .project
 .vscode/
 
-.travis.yml
 .editorconfig
 /target
 /.settings
-.gitattributes
 /.vscode
