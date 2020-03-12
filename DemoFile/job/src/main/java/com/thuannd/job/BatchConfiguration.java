@@ -9,12 +9,18 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.NonTransientResourceException;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +28,7 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 @EnableBatchProcessing
-public class BatchConfiguration{
+public class BatchConfiguration {
 
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
@@ -31,16 +37,27 @@ public class BatchConfiguration{
     public StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public FlatFileItemReader<Article> reader(){
-        return new FlatFileItemReaderBuilder<Article>()
-        .name("articleItemReader")
-        .resource(new ClassPathResource("text_data.csv"))
-        .delimited()
-        .names(new String[]{"title", "content"})
-        .fieldSetMapper(new BeanWrapperFieldSetMapper<Article>() {{
-            setTargetType(Article.class);
-          }})
-        .build();
+    public FlatFileItemReader<Article> reader() {
+        FlatFileItemReader<Article> item = new FlatFileItemReader<>();
+        if(FileController.fileToImport != null){
+            item.setResource(new ClassPathResource(FileController.fileToImport));
+        }
+        item.setName("articleItemReader");
+        item.setLineMapper(new DefaultLineMapper<Article>() {
+            {
+                setLineTokenizer(new DelimitedLineTokenizer() {
+                    {
+                        setNames(new String[]{"title", "content"});
+                    }
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<Article>() {
+                    {
+                        setTargetType(Article.class);
+                    }
+                });
+            }
+        });
+        return item;
     }
 
     @Bean
@@ -60,21 +77,21 @@ public class BatchConfiguration{
 
     @Bean
     public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
-        return jobBuilderFactory.get("importUserJob")
-        .incrementer(new RunIdIncrementer())
-        .listener(listener)
-        .flow(step1)
-        .end().build();
+            return jobBuilderFactory.get("importUserJob")
+            .incrementer(new RunIdIncrementer())
+            .listener(listener)
+            .flow(step1)
+            .end().build();
     }
 
     @Bean
     public Step step1(JdbcBatchItemWriter<Article> writer){
-        return stepBuilderFactory.get("step1")
-        .<Article, Article> chunk(10)
-        .reader(reader())
-        .processor(processor())
-        .writer(writer)
-        .build();
+            return stepBuilderFactory.get("step1")
+            .<Article, Article> chunk(1000)
+            .reader(reader())
+            .processor(processor())
+            .writer(writer)
+            .build();
     }
 
 }

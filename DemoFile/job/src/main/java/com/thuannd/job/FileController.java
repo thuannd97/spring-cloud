@@ -17,7 +17,7 @@ public class FileController {
 
     final String UPLOAD_DIR = "/home/hopeeee/working/spring-cloud/DemoFile/job/src/main/resources/";
 
-    static String fileToImport;
+    static String fileToImport = null;;
 
     @PostMapping("/file/single-file")
     public void uploadSingleFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
