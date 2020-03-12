@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api")
 public class FileController {
 
-    final String UPLOAD_DIR = "/home/hopeeee/working/spring-cloud/DemoFile/job/src/main/resources/";
+    final String UPLOAD_DIR = "/home/hopeeee/working/";
 
     static String fileToImport;
 
