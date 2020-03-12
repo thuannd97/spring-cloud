@@ -34,7 +34,7 @@ public class BatchConfiguration{
     public FlatFileItemReader<Article> reader(){
         return new FlatFileItemReaderBuilder<Article>()
         .name("articleItemReader")
-        .resource(new ClassPathResource(FileController.fileToImport))
+        .resource(new ClassPathResource("text_data.csv"))
         .delimited()
         .names(new String[]{"title", "content"})
         .fieldSetMapper(new BeanWrapperFieldSetMapper<Article>() {{
