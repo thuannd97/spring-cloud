@@ -3,20 +3,24 @@ package com.thuannd.export;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 @RequestMapping("/export-service")
 public class ExportController{
 
     @Autowired
     private ArticleRepository articleRepository;
 
-    @GetMapping("/artciles")
-    public List<Article> getAllArtcile(){
-        return articleRepository.findAll();
+    @RequestMapping(value = "/artciles", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ModelAndView getAllArtcile(){
+        ModelAndView mv = new ModelAndView("pdfView");
+        mv.getModelMap().put("data", articleRepository.findAll());
+        return mv;
     }
 
 }

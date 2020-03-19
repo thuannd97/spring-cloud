@@ -1,7 +1,7 @@
 package com.thuannd.export;
 
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +47,7 @@ public class PdfView extends AbstractView {
     private void buildPdfDocument(Map<String, Object> model, Document document,
             PdfWriter pdfWriter,
             HttpServletRequest req, HttpServletResponse resp) throws DocumentException {
+        List<Article> data = (List<Article>) model.get("data");        
         PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100.0f);
         table.setWidths(new float[]{2.0f, 3.0f, 1.5f});
@@ -66,6 +67,13 @@ public class PdfView extends AbstractView {
 
         table.completeRow();
         document.add(table);
+        data.forEach(art ->{
+            table.addCell(String.valueOf(art.getArticleId() != null ? art.getArticleId() : ""));
+            table.addCell(String.valueOf(art.getTitle() != null ? art.getTitle() : ""));
+            table.addCell(String.valueOf(art.getContent() != null ? art.getContent() : ""));
+            table.completeRow();
+        });         
+        
     }
 
     @Override
