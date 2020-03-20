@@ -3,7 +3,6 @@ package com.thuannd.export;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +15,7 @@ public class ExportController{
     @Autowired
     private ArticleRepository articleRepository;
 
-    @RequestMapping(value = "/artciles", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    @RequestMapping(value = "/artciles", method = RequestMethod.GET)
     public ModelAndView getAllArtcile(){
         ModelAndView mv = new ModelAndView("pdfView");
         mv.getModelMap().put("data", articleRepository.findAll());

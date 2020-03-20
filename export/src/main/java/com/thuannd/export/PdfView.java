@@ -1,5 +1,7 @@
 package com.thuannd.export;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +28,15 @@ public class PdfView extends AbstractView {
         setContentType("application/pdf");
     }
 
+    public PdfView(int a) {
+        setContentType("application/pdf");
+    }
+
     @Override
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest req, HttpServletResponse resp)
             throws Exception {
-        OutputStream byteOutput = createTemporaryOutputStream();
-        Document document = newDocumemt();
+        ByteArrayOutputStream byteOutput = createTemporaryOutputStream();
+        Document document = newDocument();
         PdfWriter pdfWriter = newWriter(document, byteOutput, req);
         prepareWrite(model, pdfWriter, req);
 
@@ -41,7 +47,12 @@ public class PdfView extends AbstractView {
         wrtiteToResponse(resp, byteOutput);
     }
 
-    private void wrtiteToResponse(HttpServletResponse resp, OutputStream byteOutput) {
+    private void wrtiteToResponse(HttpServletResponse resp, ByteArrayOutputStream byteOutput) {
+        try {
+            resp.getOutputStream().write(byteOutput.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void buildPdfDocument(Map<String, Object> model, Document document,
@@ -66,14 +77,13 @@ public class PdfView extends AbstractView {
         table.addCell(cell);
 
         table.completeRow();
-        document.add(table);
         data.forEach(art ->{
             table.addCell(String.valueOf(art.getArticleId() != null ? art.getArticleId() : ""));
             table.addCell(String.valueOf(art.getTitle() != null ? art.getTitle() : ""));
             table.addCell(String.valueOf(art.getContent() != null ? art.getContent() : ""));
             table.completeRow();
         });         
-        
+        document.add(table);
     }
 
     @Override
@@ -81,7 +91,7 @@ public class PdfView extends AbstractView {
         return false;
     }
 
-    protected Document newDocumemt() {
+    protected Document newDocument() {
         return new Document(PageSize.A4);
     }
 
