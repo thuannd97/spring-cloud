@@ -28,12 +28,12 @@ public class PdfView extends AbstractView {
         setContentType("application/pdf");
     }
 
-    public PdfView(int a) {
+    public PdfView(final int a) {
         setContentType("application/pdf");
     }
 
     @Override
-    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest req, HttpServletResponse resp)
+    protected void renderMergedOutputModel( Map<String, Object> model,HttpServletRequest req, HttpServletResponse resp)
             throws Exception {
         ByteArrayOutputStream byteOutput = createTemporaryOutputStream();
         Document document = newDocument();
@@ -41,7 +41,7 @@ public class PdfView extends AbstractView {
         prepareWrite(model, pdfWriter, req);
 
         document.open();
-        buildPdfDocument(model, document, pdfWriter, req, resp);
+        buildPdfDocument(model, document);
         document.close();
 
         wrtiteToResponse(resp, byteOutput);
@@ -55,18 +55,16 @@ public class PdfView extends AbstractView {
         }
     }
 
-    private void buildPdfDocument(Map<String, Object> model, Document document,
-            PdfWriter pdfWriter,
-            HttpServletRequest req, HttpServletResponse resp) throws DocumentException {
-        List<Article> data = (List<Article>) model.get("data");        
-        PdfPTable table = new PdfPTable(3);
+    private void buildPdfDocument(Map<String, Object> model, Document document) throws DocumentException {
+        final List<Article> data = (List<Article>) model.get("data");        
+        final PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100.0f);
         table.setWidths(new float[]{2.0f, 3.0f, 1.5f});
         table.setSpacingBefore(10);
-        Font font = FontFactory.getFont(FontFactory.HELVETICA);
+        final Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(BaseColor.WHITE);
 
-        PdfPCell cell = new PdfPCell();
+        final PdfPCell cell = new PdfPCell();
         cell.setBackgroundColor(BaseColor.CYAN);
         cell.setPadding(5);
         cell.setPhrase(new Phrase("ID", font));
