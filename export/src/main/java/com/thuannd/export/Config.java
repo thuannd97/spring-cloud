@@ -14,5 +14,4 @@ public class Config{
         viewResolver.setBasename("views");
         return viewResolver;
     }
-
 }

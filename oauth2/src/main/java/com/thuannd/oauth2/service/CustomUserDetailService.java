@@ -32,7 +32,7 @@ public class CustomUserDetailService implements UserDetailsService {
         userOptional.orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
         User user = userOptional.get();
         Optional<Role> roleOptional = roleDAO.findByRoleId(user.getRoleId());
-        roleOptional.orElseThrow(() -> new UsernameNotFoundException("Role not ound!"));
+        roleOptional.orElseThrow(() -> new UsernameNotFoundException("Role not found!"));
         Role role = roleOptional.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.getRole()));
