@@ -1,6 +1,7 @@
 package com.thuannd.erm.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -20,11 +21,14 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 
     @Override
     public List<Role> findAllRoleByUserId(Long userId) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT r.role_id, r.role_code, r.role_name FROM user_role ur, role r WHERE ur.role_id = r.role_id AND ur.role_id = :userId");
-        Query query = entityManager.createQuery(sql.toString());
-        query.setParameter("userId", userId);
-        return query.getResultList() != null ? query.getResultList() : new ArrayList<>();
+        if(userId != null){
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT r.role_id, r.role_code, r.role_name FROM user_role ur, role r WHERE ur.role_id = r.role_id AND ur.role_id = :userId");
+            Query query = entityManager.createQuery(sql.toString());
+            query.setParameter("userId", userId);
+            return query.getResultList() != null ? query.getResultList() : new ArrayList<>();
+        }
+        return Collections.emptyList();
     }
 
     

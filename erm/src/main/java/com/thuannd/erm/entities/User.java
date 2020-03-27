@@ -29,7 +29,6 @@ public class User implements Serializable{
     private String fullname;
     @Column(name = "gender")
     private Integer gender;
-
     public User() {
     }
 
