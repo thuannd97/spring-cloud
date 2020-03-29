@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="client/common/template">
 <head>
 <meta charset="UTF-8" />
@@ -13,7 +15,7 @@
 					<h3>Đăng nhập</h3>
 				</div>
 				<div class="si-content">
-					<form th:action="@{/dang-nhap}" id="loginForm" name="form" method="post">
+					<form th:action="@{/erm/dang-nhap}" id="loginForm" name="form" method="post">
 						<div class="alert alert-danger alert-dismissible fade in" th:if="${msg}">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">×</span>
@@ -35,11 +37,6 @@
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 						<div class="form-group">
 							<button type="submit" class="btn btn-danger">ĐĂNG NHẬP</button>
-						</div>
-						<div class="form-group">
-							<p>
-								Bạn chưa có tài khoản MuaBanThe24h.Com? <a th:href="@{/dang-ky}">Đăng ký ngay</a>
-							</p>
 						</div>
 					</form>
 				</div>

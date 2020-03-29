@@ -25,7 +25,7 @@ public class User implements Serializable{
     private String password;
     @Column(name = "status")
     private Integer status;
-    @Column(name = "full_name")
+    @Column(name = "fullname")
     private String fullname;
     @Column(name = "gender")
     private Integer gender;

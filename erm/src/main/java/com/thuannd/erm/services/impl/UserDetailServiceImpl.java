@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import com.thuannd.erm.dao.UserDAO;
 import com.thuannd.erm.dao.UserRoleDAO;
-import com.thuannd.erm.entities.Role;
 import com.thuannd.erm.entities.User;
 import com.thuannd.erm.model.MyPrincipal;
 import com.thuannd.erm.model.UserDTO;
@@ -35,11 +34,11 @@ public class UserDetailServiceImpl implements UserDetailsService, CommonService<
         final Optional<User> optionalUser = userDAO.findByUsername(username);
         optionalUser.orElseThrow(() -> new UsernameNotFoundException("User name not found!"));
         final User user = optionalUser.get();
-        final List<Role> roles = userRoleDAO.findAllRoleByUserId(user.getUserId());
+        final List<String> roles = userRoleDAO.findAllRoleByUserId(user.getUserId());
         final List<GrantedAuthority> authorities = new ArrayList<>();
         if(!roles.isEmpty()){
             roles.forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
             });
         }
         MyPrincipal accountDTO = null;

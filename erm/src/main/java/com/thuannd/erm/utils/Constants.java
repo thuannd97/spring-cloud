@@ -1,5 +1,7 @@
 package com.thuannd.erm.utils;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 public final class Constants{
 
     private Constants(){
@@ -14,4 +16,10 @@ public final class Constants{
     public static final Integer INACTIVE = 0;
 
     public static final String ADMIN = "admin";
+
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println("password: " + encoder.encode("123"));
+    }
+
 }

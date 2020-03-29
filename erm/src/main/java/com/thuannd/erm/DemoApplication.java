@@ -6,16 +6,20 @@ import com.thuannd.erm.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.StaticResourceLocation;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableJpaRepositories
+@EnableWebSecurity
 public class DemoApplication extends WebSecurityConfigurerAdapter{
 
 	@Autowired
@@ -23,20 +27,25 @@ public class DemoApplication extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").permitAll()
+		http.authorizeRequests().antMatchers("/erm/trang-chu").permitAll()
 		.antMatchers("/dang-nhap").permitAll()
+		.requestMatchers(PathRequest.toStaticResources().at(StaticResourceLocation.CSS, 
+						StaticResourceLocation.JAVA_SCRIPT))
+				.permitAll()
 		.antMatchers("/quan-tri/**").hasAnyRole(Constants.ADMIN).anyRequest()
-		.authenticated().and().formLogin().loginPage("/dang-nhap")
+		.authenticated().and().formLogin().loginPage("/erm/dang-nhap")
 		.usernameParameter("username").passwordParameter("password")
-		.defaultSuccessUrl("/", true).failureUrl("/dang-nhap?e")
+		.defaultSuccessUrl("/erm/quan-tri", true).failureUrl("/dang-nhap?e")
 		.permitAll().and().logout().logoutUrl("/dang-xuat")
 		.permitAll().and().exceptionHandling().accessDeniedPage("/dang-nhap?e");
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/client/js/**", "/client/css/**", "/client/fonts/**", "/client/images/**",
-		"/user/css/**", "/user/js/**", "/user/fonts/**", "/user/images/**", "/user/plugins/**");
+		web.ignoring().antMatchers("/admin/css/**", "/admin/js/**", "/admin/fonts/**", 
+		"/admin/images/**", "/client/css/**", "/client/js/**", 
+		"/client/fonts/**", "/client/images/**", 
+		"/admin/plugins/**");
 	}
 
 	@Override
