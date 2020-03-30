@@ -28,16 +28,16 @@ public class DemoApplication extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/erm/trang-chu").permitAll()
-		.antMatchers("/dang-nhap").permitAll()
+		.antMatchers("/erm/dang-nhap").permitAll()
 		.requestMatchers(PathRequest.toStaticResources().at(StaticResourceLocation.CSS, 
 						StaticResourceLocation.JAVA_SCRIPT))
 				.permitAll()
 		.antMatchers("/quan-tri/**").hasAnyRole(Constants.ADMIN).anyRequest()
 		.authenticated().and().formLogin().loginPage("/erm/dang-nhap")
 		.usernameParameter("username").passwordParameter("password")
-		.defaultSuccessUrl("/erm/quan-tri", true).failureUrl("/dang-nhap?e")
-		.permitAll().and().logout().logoutUrl("/dang-xuat")
-		.permitAll().and().exceptionHandling().accessDeniedPage("/dang-nhap?e");
+		.defaultSuccessUrl("/erm/quan-tri", true).failureUrl("/erm/dang-nhap?e")
+		.permitAll().and().logout().logoutUrl("/erm/dang-xuat")
+		.permitAll().and().exceptionHandling().accessDeniedPage("/erm/dang-nhap?e");
 	}
 
 	@Override
