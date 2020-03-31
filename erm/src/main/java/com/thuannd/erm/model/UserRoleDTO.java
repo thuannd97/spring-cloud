@@ -10,15 +10,13 @@ public class UserRoleDTO implements Serializable{
     private Long userId;
     private Integer roleId;
     private Integer isActive;
+    private Integer roleStatus;
+    private Integer userStatus;
+    private String username;
+    private String fullname;
 
     public UserRoleDTO() {
-    }
-
-    public UserRoleDTO(Long userRoleId, Long userId, Integer roleId, Integer isActive) {
-        this.userRoleId = userRoleId;
-        this.userId = userId;
-        this.roleId = roleId;
-        this.isActive = isActive;
+        super();
     }
 
     public Long getUserRoleId() {
@@ -51,5 +49,37 @@ public class UserRoleDTO implements Serializable{
 
     public void setIsActive(Integer isActive) {
         this.isActive = isActive;
+    }
+
+    public Integer getRoleStatus() {
+        return roleStatus;
+    }
+
+    public void setRoleStatus(Integer roleStatus) {
+        this.roleStatus = roleStatus;
+    }
+
+    public Integer getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Integer userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

@@ -110,11 +110,11 @@
 	    width: 100%; 
 	} 
 	.cost-all ul li {
-	    width: 50%;
+	    width: 100%;
 	    float: left;
 	} 
 	.text-36 {
-	    font-size: 25px;
+	    font-size: 20px;
 	}
 	.system-all ul li, .service-all ul li{
 		width:80%

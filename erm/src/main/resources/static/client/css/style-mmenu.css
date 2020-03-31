@@ -10,7 +10,7 @@ body {
     height: 40px;
     background: url("../images/menu-toggle.png") no-repeat center;
     position: absolute;
-    top: 15px;
+    top: 5px;
     left: 9px;
     cursor: pointer;
     z-index: 999;
