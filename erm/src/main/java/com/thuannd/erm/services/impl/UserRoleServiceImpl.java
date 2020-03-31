@@ -36,5 +36,10 @@ public class UserRoleServiceImpl implements UserRoleService {
         });
         return userRoleDTOs;
     }
+
+    @Override
+    public Long countRoleUser() {
+        return userRoleDAO.countRoleUser();
+    }
     
 }
