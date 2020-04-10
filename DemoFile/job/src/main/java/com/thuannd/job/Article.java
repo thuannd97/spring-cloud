@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
 @Entity
 @Table(name = "article")
+@Document(indexName = "article", type = "article", shards = 1)
 public class Article implements Serializable{
 
     private static final long serialVersionUID = 1L;
