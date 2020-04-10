@@ -36,7 +36,7 @@ public class UserRoleDAOImpl implements UserRoleDAO {
     @Override
     public List<UserRole> findAllRoleUser() {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT r.role_id, r.role_name, r.status, u.user_id, u.username, u.fullname, u.status FROM user_role ur, role r, user u WHERE ur.role_id = r.role_id AND ur.user_id = u.user_id and r.role_name LIKE '%USER%'");
+        sql.append("SELECT r.role_id, r.role_name, r.status as rtatus, u.user_id, u.username, u.fullname, u.status as ustatus FROM user_role ur, role r, user u WHERE ur.role_id = r.role_id AND ur.user_id = u.user_id and r.role_name LIKE '%USER%'");
         Query query = entityManager.createNativeQuery(sql.toString());
         List<Object[]> rows = query.getResultList();
         List<UserRole> userRoles = new ArrayList<>();
@@ -70,7 +70,10 @@ public class UserRoleDAOImpl implements UserRoleDAO {
 
     @Override
     public Long countRoleUser() {
-        return null;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(*) FROM user_role ur, role r, user u WHERE ur.role_id = r.role_id AND ur.user_id = u.user_id AND r.role_name LIKE '%USER%'");
+        Query query = entityManager.createNativeQuery(sql.toString());
+        return Long.valueOf(query.getSingleResult().toString());
     }
 
     

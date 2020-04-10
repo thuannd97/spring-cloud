@@ -1,5 +1,6 @@
 package com.thuannd.erm.controller;
 
+import com.thuannd.erm.model.ResponseDTO;
 import com.thuannd.erm.model.UserRoleDTO;
 import com.thuannd.erm.services.UserRoleService;
 
@@ -23,8 +24,9 @@ public class DashboardController{
     }
 
     @GetMapping("/nguoi-dung")
-    public ResponseEntity<UserRoleDTO> findAllUser(){
-        return new ResponseEntity<UserRoleDTO>(userRoleService.findAllRoleUser(), HttpStatus.OK);
+    public ResponseEntity<ResponseDTO> findAllUser() {
+        ResponseDTO responseDTO = new ResponseDTO<UserRoleDTO>(userRoleService.findAllRoleUser(), userRoleService.countRoleUser());
+        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
 }

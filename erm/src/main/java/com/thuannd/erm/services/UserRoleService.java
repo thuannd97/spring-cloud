@@ -8,4 +8,5 @@ public interface UserRoleService{
 
     List<UserRoleDTO> findAllRoleUser();
 
+    Long countRoleUser();
 }
